@@ -296,6 +296,13 @@ class GuestController extends Controller
      */
     public function actionConfirm_registration($key)
     {
+        /*
+        Versión MailWizz: 2.6.4
+
+        Fecha: 2026-01-20
+
+        Autor: Marco Marin
+        */
         $model = Customer::model()->findByAttributes([
             'confirmation_key' => $key,
             'status'           => Customer::STATUS_PENDING_CONFIRM,
