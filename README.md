@@ -51,6 +51,35 @@ $this->redirect(['account/index']);
 $this->redirect('https://mailbys.com/user/confirmation/' . $model->customer_uid);
 ```
 
+### Login automático deshabilitado
+**Tras confirmar el usuario, se iniciaba una sesión automáticamente; ahora basta con comentar las líneas correspondientes.**
+
+#### Antes
+```
+$identity = new CustomerIdentity($model->email, $model->password);
+$identity->setId($model->customer_id);
+$identity->setAutoLoginToken($model);
+
+if (!customer()->login($identity, 3600 * 24 * 30)) {
+    //$this->redirect(['guest/index']);
+    //custom redirect
+    $this->redirect('https://mailbys.com/user/confirmation/'.$model->customer_uid);
+}
+```
+#### Después
+```
+//automatic login after confirmation will be disabled
+/* $identity = new CustomerIdentity($model->email, $model->password);
+$identity->setId($model->customer_id);
+$identity->setAutoLoginToken($model);
+
+if (!customer()->login($identity, 3600 * 24 * 30)) {
+    //$this->redirect(['guest/index']);
+    //custom redirect
+    $this->redirect('https://mailbys.com/user/confirmation/'.$model->customer_uid);
+} */
+```
+
 ## Etiquetas Personalizadas (Custom Tags)
 Se han implementado etiquetas personalizadas para usar en las plantillas de email (ej: [MAILBYS_UNSUBSCRIBE_URL]). El objetivo es generar enlaces directos a nuestra plataforma, evitando el sistema de tracking y redirección interna de MailWizz (que suele generar URLs largas tipo /campaigns/.../track-url/).
 

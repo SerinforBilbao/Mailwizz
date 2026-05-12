@@ -323,13 +323,15 @@ class GuestController extends Controller
         $requireApproval = $registration->getRequireApproval();
         $model->status   = !$requireApproval ? Customer::STATUS_ACTIVE : Customer::STATUS_PENDING_ACTIVE;
         if (!$model->save(false)) {
-            $this->redirect(['guest/index']);
+            //$this->redirect(['guest/index']);
+            $this->redirect('https://mailbys.com');
         }
 
         if ($requireApproval) {
             notify()->addSuccess(t('customers', 'Congratulations, you have successfully confirmed your account.'));
             notify()->addSuccess(t('customers', 'You will be able to login once an administrator will approve it.'));
-            $this->redirect(['guest/index']);
+            //$this->redirect(['guest/index']);
+            $this->redirect('https://mailbys.com');
         }
 
         /** @var OptionCommon $optionCommon */
@@ -370,7 +372,8 @@ class GuestController extends Controller
             $email->save();
         }
 
-        $identity = new CustomerIdentity($model->email, $model->password);
+        //automatic login after confirmation will be disabled
+        /* $identity = new CustomerIdentity($model->email, $model->password);
         $identity->setId($model->customer_id);
         $identity->setAutoLoginToken($model);
 
@@ -378,7 +381,7 @@ class GuestController extends Controller
             //$this->redirect(['guest/index']);
             //custom redirect
             $this->redirect('https://mailbys.com/user/confirmation/'.$model->customer_uid);
-        }
+        } */
 
         notify()->addSuccess(t('customers', 'Congratulations, your account is now ready to use.'));
         notify()->addSuccess(t('customers', 'Please start by filling your account and company info.'));
