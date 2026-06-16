@@ -4,6 +4,35 @@ Funciones y correcciones personalizadas sobre la aplicación de **MailWizz Email
 **Nota:** Estos cambios se perderán al actualizar MailWizz, por lo que deben reaplicarse tras cada actualización.
 
 ---
+## Generar Api Key
+
+Al momento de registrar un usuario por medio de la API se **genera nueva api key para ese usuario**.  
+Por defecto, este proceso se realizaba desde el Backend de Mailwizz, ahora es automático.
+
+### Archivo modificado
+
+Desde la raíz del proyecto, ubicar el archivo:
+
+apps/api/controllers/CustomersController.php
+
+### Método afectado
+
+Buscar la función:
+
+actionCreate
+
+### Cambio generado
+Justo después de guardar la información del cliente se debe generar la api key y guardarla, para ello se inserta el siguiente código:
+```
+// Crear clave API automáticamente
+    $apiKey = new CustomerApiKey();
+    $apiKey->customer_id = (int)$customer->customer_id;
+    $apiKey->name = 'Client API Key';
+    $apiKey->description = 'Generated automatically';
+    $apiKey->save(); // Aquí se genera automáticamente la clave en beforeValidate()
+```
+---
+---
 
 ## Confirmación de registro
 
@@ -79,6 +108,8 @@ if (!customer()->login($identity, 3600 * 24 * 30)) {
     $this->redirect('https://mailbys.com/user/confirmation/'.$model->customer_uid);
 } */
 ```
+---
+---
 
 ## Etiquetas Personalizadas (Custom Tags)
 Se han implementado etiquetas personalizadas para usar en las plantillas de email (ej: [MAILBYS_UNSUBSCRIBE_URL]). El objetivo es generar enlaces directos a nuestra plataforma, evitando el sistema de tracking y redirección interna de MailWizz (que suele generar URLs largas tipo /campaigns/.../track-url/).
@@ -111,6 +142,8 @@ Asegurarse de que apps/init-custom.php tenga como propietario al usuario del ser
 ```
 chown www-data:www-data apps/init-custom.php
 ```
+---
+---
 
 ## Información de cambios
 Añadir en todos los cambios realizados la siguiente información:
