@@ -30,31 +30,45 @@ Yii::app()->hooks->addFilter('campaigns_get_common_tags_search_replace', functio
     
     $params = [];
     $test = true;
-    if (!empty($subscriber) && is_object($subscriber)) {
+    if (!empty($campaign) && is_object($campaign)) {
         $test = false;
-        // get IDs 
         $listUid = (isset($campaign->list) && isset($campaign->list->list_uid)) ? $campaign->list->list_uid : '';
         $campUid = (isset($campaign->campaign_uid)) ? $campaign->campaign_uid : '';
+        $customerUid = (isset($campaign->customer) && isset($campaign->customer->customer_uid)) ?  $campaign->customer->customer_uid : '';
         
         $params = [
-            'subscriber_uid' => $subscriber->subscriber_uid,
             'campaign_uid' => $campUid,
-            'list_uid' => $listUid
+            'list_uid' => $listUid,
+            'customer_uid' => $customerUid
         ];
+    }
+
+    if (!empty($subscriber) && is_object($subscriber)) {
+        $test = false;
+        $params['subscriber_uid'] = $subscriber->subscriber_uid;
+        
     } 
 
     //--------------First tag -------------
     $tag = '[MAILBYS_UNSUBSCRIBE_URL]';
     $baseUrl = 'https://mailbys.com/unsubscribe';
-    $url_tagSub = $formatUrl($baseUrl,$params,$test);
+    $unsubscribe_url = $formatUrl($baseUrl,$params,$test);
 
     // Add tag to MailWizz replacements array
     // MailWizz will take care of searching for [LABEL] and changing it to the URL
-    $searchReplace[$tag] = $url_tagSub;
+    $searchReplace[$tag] = $unsubscribe_url;
 
 
     
     //--------------Second tag -------------
+    $tag = '[MAILBYS_WEB_VERSION]';
+    $baseUrl = 'https://mailbys.com/template/webversion';
+    $versionweb_url = $formatUrl($baseUrl,$params,$test);
+
+    // Add tag to MailWizz replacements array
+    // MailWizz will take care of searching for [LABEL] and changing it to the URL
+    $searchReplace[$tag] = $versionweb_url;
+
     
     //--------------Third tag -------------
 
