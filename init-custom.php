@@ -51,7 +51,7 @@ Yii::app()->hooks->addFilter('campaigns_get_common_tags_search_replace', functio
 
     //--------------First tag -------------
     $tag = '[MAILBYS_UNSUBSCRIBE_URL]';
-    $baseUrl = 'https://mailbys.com/unsubscribe';
+    $baseUrl = 'https://mailbys.com/lists/unsubscriber';
     $unsubscribe_url = $formatUrl($baseUrl,$params,$test);
 
     // Add tag to MailWizz replacements array
