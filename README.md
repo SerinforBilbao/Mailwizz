@@ -263,6 +263,7 @@ apps/api/controllers/
 Custom_customergroupController.php
 Custom_apiController.php
 Custom_customersController.php
+Custom_campaign_trackingController.php
 ```
 
 Estos archivos deben conservarse o restaurarse después de una actualización en caso de que sean eliminados.
@@ -296,6 +297,7 @@ se deben registrar las siguientes reglas:
 ['custom_customers/updatecustomergroup', 'pattern' => 'custom-upcustomergroup/<customer_uid:([a-z0-9]+)>', 'verb' => 'PUT'],
 ['custom_customergroup/getall', 'pattern' => 'custom-customerallgroups', 'verb' => 'GET'],
 ['custom_customers/getsendings', 'pattern' => 'custom-customersendings/<customer_uid:([a-z0-9]+)>', 'verb' => 'GET'],
+['custom_campaign_tracking/getcustomstats', 'pattern' => 'custom-campaign-tracking/<campaign_uid:([a-z0-9]+)>', 'verb' => 'GET'],
 ```
 
 ### Endpoints personalizados
@@ -307,6 +309,7 @@ se deben registrar las siguientes reglas:
 | `GET` | `/custom-customer/<customer_uid>` | Obtener información básica de un cliente |
 | `PUT` | `/custom-upcustomergroup/<customer_uid>` | Actualizar el grupo de un cliente |
 | `GET` | `/custom-customersendings/<customer_uid>` | Obtener los envíos realizados por el cliente durante el mes actual |
+| `GET` | `/custom-campaign-tracking/<campaign_uid>` | Obtener estadisticas completas de una campaña |
 
 ### Actualizar grupo de cliente
 
